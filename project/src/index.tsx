@@ -8,7 +8,7 @@ const root = ReactDOM.createRoot(
 
 const Setting = {
   PlacesCount: 200,
-  HasAccess: true,
+  HasAccess: false,
 } as const;
 
 
