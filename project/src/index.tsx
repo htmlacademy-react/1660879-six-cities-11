@@ -8,6 +8,7 @@ const root = ReactDOM.createRoot(
 
 const Setting = {
   PlacesCount: 200,
+  HasAccess: false,
 } as const;
 
 
@@ -15,6 +16,7 @@ root.render(
   <React.StrictMode>
     <App
       placesCount={Setting.PlacesCount}
+      hasAccess={Setting.HasAccess}
     />
   </React.StrictMode>,
 );
