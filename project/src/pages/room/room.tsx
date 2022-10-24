@@ -1,9 +1,13 @@
+import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import Navigation from '../../components/navigation/navigation';
 
 function Room() {
   return (
     <div className="page">
+      <Helmet>
+        <title>6 cities: property</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
