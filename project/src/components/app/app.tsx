@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AppRoute } from '../../const';
 import Favorites from '../../pages/favorites/favorites';
 import Login from '../../pages/login/login';
 import Main from '../../pages/main/main';
@@ -16,15 +17,15 @@ function App({placesCount, hasAccess}: AppProps): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route
-          path='/'
+          path={AppRoute.Root}
           element={<Main placesCount={placesCount} />}
         />
         <Route
-          path='/login'
+          path={AppRoute.Login}
           element={<Login />}
         />
         <Route
-          path='/favorites'
+          path={AppRoute.Favorites}
           element={
             <PrivateRoute hasAccess={hasAccess}>
               <Favorites />
@@ -32,7 +33,7 @@ function App({placesCount, hasAccess}: AppProps): JSX.Element {
           }
         />
         <Route
-          path='/offer/:id'
+          path={AppRoute.Room}
           element={<Room />}
         />
         <Route
