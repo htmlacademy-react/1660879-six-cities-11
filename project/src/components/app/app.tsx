@@ -9,10 +9,10 @@ import PrivateRoute from '../private-route/private-route';
 
 type AppProps = {
   placesCount: number;
-  hasAccess: boolean;
+  authStatus: string;
 }
 
-function App({placesCount, hasAccess}: AppProps): JSX.Element {
+function App({placesCount, authStatus}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -27,7 +27,7 @@ function App({placesCount, hasAccess}: AppProps): JSX.Element {
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute hasAccess={hasAccess}>
+            <PrivateRoute authStatus={authStatus}>
               <Favorites />
             </PrivateRoute>
           }
