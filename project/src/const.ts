@@ -10,3 +10,11 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export enum PropertyType {
+  'apartment' = 'Apartment',
+  'room' = 'Private Room',
+  'house' = 'House',
+  'hotel' = 'Hotel'
+}
+

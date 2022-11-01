@@ -1,13 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import Navigation from '../../components/navigation/navigation';
-import PlaceCard from '../../components/place-card/place-card';
+import PlacesList from '../../components/places-list/places-list';
+import { Offer } from '../../types/offer';
 
 type MainProps = {
-  placesCount: number;
+  offers: Offer[];
 }
 
-function Main({placesCount}: MainProps): JSX.Element {
+function Main({offers}: MainProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
@@ -65,11 +66,10 @@ function Main({placesCount}: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
-                  {/* TODO правильно ли я заменил tabindex="0" на tabIndex={0} и почему TS ругался? */}
                   Popular
                   <svg className="places__sorting-arrow" width="7" height="4">
                     <use xlinkHref="#icon-arrow-select"></use>
@@ -82,13 +82,7 @@ function Main({placesCount}: MainProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-                <PlaceCard />
-              </div>
+              <PlacesList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
