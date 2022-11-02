@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
-function NotFound() {
+function NoProperty() {
   const style = {
     marginLeft: '40px'
   };
@@ -10,12 +10,12 @@ function NotFound() {
   return (
     <>
       <Helmet>
-        <title>404 Page Not Found</title>
+        <title>6 cities. There is no such property</title>
       </Helmet>
-      <h1 style={style}>404 Not Found</h1>
+      <h1 style={style}>There is no such property</h1>
       <Link className='locations__item-link' style={style} to={AppRoute.Root}>Back to the main page</Link>
     </>
   );
 }
 
-export default NotFound;
+export default NoProperty;
