@@ -1,5 +1,5 @@
-import { useState, ChangeEvent } from 'react';
-// import { useLocation } from 'react-router-dom';
+import { useState, useEffect, ChangeEvent } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const initialFormState = {
   rating: 0,
@@ -9,11 +9,11 @@ const initialFormState = {
 function ReviewsForm() {
   const [formData, setFormData] = useState(initialFormState);
 
-  // const {pathname} = useLocation();
+  const {pathname} = useLocation();
 
-  // useEffect(() => {
-  //   setFormData(initialFormState);
-  // }, [pathname]);
+  useEffect(() => {
+    setFormData(initialFormState);
+  }, [pathname]);
 
 
   const handleFieldChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,6 +33,7 @@ function ReviewsForm() {
       </label>
       <div className="reviews__rating-form form__rating">
         <input
+          checked={Number(formData.rating) === 5}
           onChange={handleFieldChange}
           className="form__rating-input visually-hidden"
           name="rating"
@@ -50,6 +51,7 @@ function ReviewsForm() {
           </svg>
         </label>
         <input
+          checked={Number(formData.rating) === 4}
           onChange={handleFieldChange}
           className="form__rating-input visually-hidden"
           name="rating"
@@ -67,6 +69,7 @@ function ReviewsForm() {
           </svg>
         </label>
         <input
+          checked={Number(formData.rating) === 3}
           onChange={handleFieldChange}
           className="form__rating-input visually-hidden"
           name="rating"
@@ -84,6 +87,7 @@ function ReviewsForm() {
           </svg>
         </label>
         <input
+          checked={Number(formData.rating) === 2}
           onChange={handleFieldChange}
           className="form__rating-input visually-hidden"
           name="rating"
@@ -101,6 +105,7 @@ function ReviewsForm() {
           </svg>
         </label>
         <input
+          checked={Number(formData.rating) === 1}
           onChange={handleFieldChange}
           className="form__rating-input visually-hidden"
           name="rating"
@@ -124,9 +129,7 @@ function ReviewsForm() {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        defaultValue={''}
-        // value={formData.review}
-        // TODO сделать компонент управляемым
+        value={formData.review}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
