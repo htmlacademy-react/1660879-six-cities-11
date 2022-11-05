@@ -1,21 +1,21 @@
 import { useState, useEffect, useRef, MutableRefObject } from 'react';
 import L from 'leaflet';
-import { City } from './../types/offer';
+import { Offer } from './../types/offer';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
-  city: City
-) {
+  offer: Offer
+): L.Map | null
+{
   const [customMap, setCustomMap] = useState<L.Map | null>(null);
   const isRenderedRef = useRef(false);
 
   useEffect(() => {
-
     if (mapRef.current !== null && !isRenderedRef.current) {
 
       const instance = L.map(mapRef.current, {
-        center: [city.location.latitude, city.location.longitude],
-        zoom: city.location.zoom,
+        center: [offer.city.location.latitude, offer.city.location.longitude],
+        zoom: offer.city.location.zoom,
       });
 
       L
@@ -31,7 +31,7 @@ function useMap(
       setCustomMap(instance);
       isRenderedRef.current = true;
     }
-  }, [mapRef, customMap, city]);
+  }, [mapRef, customMap, offer]);
 
   return customMap;
 }

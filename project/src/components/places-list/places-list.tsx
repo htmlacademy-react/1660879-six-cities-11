@@ -1,16 +1,15 @@
 import { Offer } from './../../types/offer';
 import PlaceCard from './../place-card/place-card';
-import { useState } from 'react';
 
 type PlacesListProps = {
   offers: Offer[];
+  onPlaceListMouseEnter(id: number): void;
 }
 
-function PlacesList({offers}: PlacesListProps) {
-  const [, setActiveCard] = useState<number | undefined>(undefined);
+function PlacesList({offers, onPlaceListMouseEnter}: PlacesListProps) {
 
   const handleCardMouseEnter = (id: number): void => {
-    setActiveCard(id);
+    onPlaceListMouseEnter(id);
   };
 
   return (

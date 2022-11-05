@@ -1,18 +1,44 @@
 import { Offer } from '../../types/offer';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/useMap';
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 type MapProps = {
   offers: Offer[];
+  selectedOfferId: number | undefined;
 }
+const defaultCustomIcon = L.icon({
+  iconUrl: '/img/pin.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
 
-function Map({offers}: MapProps) {
-  const cityLocation = offers[0].city;
+const currentCustomIcon = L.icon({
+  iconUrl: '/img/pin-active.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+});
+
+function Map({offers, selectedOfferId}: MapProps) {
+  const offer = offers[0];
   const mapRef = useRef(null);
-  const map = useMap(mapRef, cityLocation);
+  const map = useMap(mapRef, offer);
 
-  return <div style={{height: '500px'}} ref={mapRef}></div>;
+  useEffect(() => {
+    if (map) {
+      offers.forEach(
+        (it) => L.marker(
+          [it.location.latitude, it.location.longitude],
+          {icon: (it.id === selectedOfferId)
+            ? currentCustomIcon
+            : defaultCustomIcon})
+          .addTo(map));
+    }
+  }, [map, offers, selectedOfferId]);
+
+
+  return <div style={{height: '1000px'}} ref={mapRef}></div>;
 }
 
 export default Map;
