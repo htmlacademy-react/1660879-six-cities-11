@@ -3,12 +3,19 @@ import Logo from '../../components/logo/logo';
 import Navigation from '../../components/navigation/navigation';
 import PlacesList from '../../components/places-list/places-list';
 import { Offer } from '../../types/offer';
+import Map from './../../components/map/map';
+import { useState } from 'react';
 
 type MainProps = {
   offers: Offer[];
 }
 
 function Main({offers}: MainProps): JSX.Element {
+  const [selectedOfferId, setSelectedOfferId] = useState<number | undefined>(undefined);
+
+  const onPlaceListMouseEnter = (id: number) => {
+    setSelectedOfferId(id);
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -82,10 +89,12 @@ function Main({offers}: MainProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <PlacesList offers={offers}/>
+              <PlacesList offers={offers} onPlaceListMouseEnter={onPlaceListMouseEnter}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <section className="cities__map map">
+                <Map offers={offers} selectedOfferId={selectedOfferId}></Map>
+              </section>
             </div>
           </div>
         </div>
