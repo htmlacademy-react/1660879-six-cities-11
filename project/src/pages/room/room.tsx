@@ -12,6 +12,7 @@ import NearPlacesBlock from '../../components/near-places-block/near-places-bloc
 import { getPropertyType } from './../../util';
 import { PropertyType } from './../../const';
 import StarsRating from './../../components/stars-rating/stars-rating';
+import Map from '../../components/map/map';
 
 type RoomProps = {
   offers: Offer[];
@@ -109,7 +110,9 @@ function Room({offers, comments, authStatus}: RoomProps) {
                 <PropertyReviewsBlock comments={comments} authStatus={authStatus} />
               </div>
             </div>
-            <section className="property__map map" />
+            <section className="property__map map">
+              <Map offers={offers} selectedOfferId={Number(id)}></Map>
+            </section>
           </section>
           <NearPlacesBlock offers={offers}/>
         </main>

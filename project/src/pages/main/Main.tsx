@@ -3,7 +3,7 @@ import Logo from '../../components/logo/logo';
 import Navigation from '../../components/navigation/navigation';
 import PlacesList from '../../components/places-list/places-list';
 import { Offer } from '../../types/offer';
-import Map from './../../components/map/map';
+import Map from '../../components/map/map';
 import { useState } from 'react';
 
 type MainProps = {
