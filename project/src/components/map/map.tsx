@@ -38,7 +38,7 @@ function Map({offers, selectedOfferId}: MapProps) {
   }, [map, offers, selectedOfferId]);
 
 
-  return <div style={{height: '660px'}} ref={mapRef}></div>;
+  return <div style={{height: '580px'}} ref={mapRef}></div>;
 }
 
 export default Map;
