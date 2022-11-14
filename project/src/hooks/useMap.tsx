@@ -12,12 +12,7 @@ function useMap(
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
-
-      const instance = L.map(mapRef.current, {
-        center: [offer.city.location.latitude, offer.city.location.longitude],
-        zoom: offer.city.location.zoom,
-      });
-
+      const instance = L.map(mapRef.current);
       L
         .tileLayer(
           'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
@@ -31,6 +26,11 @@ function useMap(
       setCustomMap(instance);
       isRenderedRef.current = true;
     }
+
+    if (mapRef.current !== null && isRenderedRef.current && customMap !== null) {
+      customMap.setView([offer.city.location.latitude, offer.city.location.longitude], offer.city.location.zoom);
+    }
+
   }, [mapRef, customMap, offer]);
 
   return customMap;

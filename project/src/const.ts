@@ -18,7 +18,7 @@ export enum PropertyType {
   'hotel' = 'Hotel'
 }
 
-export enum City {
+export enum CitiesList {
   Paris = 'Paris',
   Cologne = 'Cologne',
   Brussels = 'Brussels',

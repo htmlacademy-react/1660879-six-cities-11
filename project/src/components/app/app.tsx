@@ -29,7 +29,7 @@ function App({authStatus, offers, comments}: AppProps): JSX.Element {
         <Routes>
           <Route
             path={AppRoute.Root}
-            element={<Main offers={offers}/>}
+            element={<Main/>}
           />
           <Route
             path={AppRoute.Login}

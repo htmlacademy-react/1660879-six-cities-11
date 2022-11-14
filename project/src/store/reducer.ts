@@ -1,10 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { City } from '../const';
+import { CitiesList } from '../const';
 import { offers } from '../mocks/offers';
 import { changeCity, getAllOffers } from './action';
 
 const initialState = {
-  city: City.Paris as keyof typeof City,
+  city: CitiesList.Paris as string,
   offers: offers
 };
 
