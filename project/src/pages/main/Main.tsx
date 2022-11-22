@@ -10,9 +10,9 @@ import { useAppSelector } from '../../hooks/index';
 import MainEmpty from '../../components/main-empty/main-empty';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/index';
-import { getAllOffers } from '../../store/action';
 import Sort from '../../components/sort/sort';
 import { Offer } from '../../types/offer';
+import { fetchOffersAction } from '../../store/api-action';
 
 function Main(): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState<number | undefined>(undefined);
@@ -20,7 +20,7 @@ function Main(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getAllOffers());
+    dispatch(fetchOffersAction());
   }, [dispatch]);
 
 
