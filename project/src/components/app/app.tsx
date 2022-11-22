@@ -11,6 +11,7 @@ import { Comment } from '../../types/comment';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import { getAllFavoriteOffersAndCities } from '../../util';
 import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type AppProps = {
   authStatus: string;
@@ -20,8 +21,15 @@ type AppProps = {
 function App({authStatus, comments}: AppProps): JSX.Element {
 
   const offers = useAppSelector((state) => state.offers);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
   const {allFavoriteOffers, favoriteCities} = getAllFavoriteOffersAndCities(offers);
+
+  if (isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <HelmetProvider>
