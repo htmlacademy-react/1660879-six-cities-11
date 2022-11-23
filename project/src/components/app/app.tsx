@@ -7,20 +7,29 @@ import Main from '../../pages/main/main';
 import NotFound from '../../pages/not-found/not-found';
 import Room from '../../pages/room/room';
 import PrivateRoute from '../private-route/private-route';
-import { Offer } from '../../types/offer';
 import { Comment } from '../../types/comment';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import { getAllFavoriteOffersAndCities } from '../../util';
+import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type AppProps = {
   authStatus: string;
-  offers: Offer[];
   comments: Comment[];
 }
 
-function App({authStatus, offers, comments}: AppProps): JSX.Element {
+function App({authStatus, comments}: AppProps): JSX.Element {
+
+  const offers = useAppSelector((state) => state.offers);
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
 
   const {allFavoriteOffers, favoriteCities} = getAllFavoriteOffersAndCities(offers);
+
+  if (isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <HelmetProvider>

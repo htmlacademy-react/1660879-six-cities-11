@@ -32,4 +32,8 @@ export enum SortType {
   PriceLowToHigh = 'PriceLowToHigh',
   PriceHighToLow = 'PriceHighToLow',
   RatingHighToLow = 'RatingHighToLow'
- }
+}
+
+export enum APIRoute {
+  Offers = '/hotels',
+}

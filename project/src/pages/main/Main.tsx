@@ -9,20 +9,11 @@ import { CitiesList, SortType } from '../../const';
 import { useAppSelector } from '../../hooks/index';
 import MainEmpty from '../../components/main-empty/main-empty';
 import { useEffect } from 'react';
-import { useAppDispatch } from '../../hooks/index';
-import { getAllOffers } from '../../store/action';
 import Sort from '../../components/sort/sort';
 import { Offer } from '../../types/offer';
 
 function Main(): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState<number | undefined>(undefined);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getAllOffers());
-  }, [dispatch]);
-
 
   const allOffers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
