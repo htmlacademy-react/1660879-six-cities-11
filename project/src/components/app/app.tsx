@@ -14,14 +14,14 @@ import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 type AppProps = {
-  authStatus: string;
   comments: Comment[];
 }
 
-function App({authStatus, comments}: AppProps): JSX.Element {
+function App({comments}: AppProps): JSX.Element {
 
   const offers = useAppSelector((state) => state.offers);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const {allFavoriteOffers, favoriteCities} = getAllFavoriteOffersAndCities(offers);
 
@@ -47,14 +47,14 @@ function App({authStatus, comments}: AppProps): JSX.Element {
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute authStatus={authStatus}>
+              <PrivateRoute authStatus={authorizationStatus}>
                 <Favorites offers={allFavoriteOffers} cities={favoriteCities}/>
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Room}
-            element={<Room offers={offers} comments={comments} authStatus={authStatus}/>}
+            element={<Room offers={offers} comments={comments} authStatus={authorizationStatus}/>}
           />
           <Route
             path='*'
