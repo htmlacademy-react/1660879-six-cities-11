@@ -8,7 +8,7 @@ type ReviewsListProps = {
 function ReviewsList({comments}: ReviewsListProps) {
   return (
     <ul className="reviews__list">
-      {comments.length && comments.map((it) => <Review comment={it} key={it.id}/>)}
+      {!!comments.length && comments.map((it) => <Review comment={it} key={it.id}/>)}
     </ul>
   );
 }

@@ -1,12 +1,21 @@
-import { useState, useEffect, ChangeEvent } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { APIRoute } from '../../const';
+import { createAPI } from '../../services/api';
+import { Comment } from '../../types/comment';
 
 const initialFormState = {
   rating: 0,
   review: '',
 };
 
-function ReviewsForm() {
+type ReviewsFormProps = {
+  handleCommentsChange: (newComments: Comment[]) => void;
+}
+
+function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
+  const api = createAPI();
+  const { id } = useParams();
   const [formData, setFormData] = useState(initialFormState);
 
   const {pathname} = useLocation();
@@ -25,6 +34,14 @@ function ReviewsForm() {
     });
   };
 
+  const handleFormSubmmit = (evt: FormEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+    api.post<Comment[]>(`${APIRoute.Comments}/${id as string}`, {
+      comment: formData.review,
+      rating: formData.rating,
+    }).then((response) => handleCommentsChange(response.data));
+    setFormData(initialFormState);
+  };
 
   return (
     <form className="reviews__form form" action="#" method="post">
@@ -141,7 +158,7 @@ function ReviewsForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          onClick={handleFormSubmmit}
         >
           Submit
         </button>

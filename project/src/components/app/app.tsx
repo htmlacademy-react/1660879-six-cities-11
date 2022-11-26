@@ -7,17 +7,13 @@ import Main from '../../pages/main/main';
 import NotFound from '../../pages/not-found/not-found';
 import Room from '../../pages/room/room';
 import PrivateRoute from '../private-route/private-route';
-import { Comment } from '../../types/comment';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import { getAllFavoriteOffersAndCities } from '../../util';
 import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
+import NoProperty from '../no-property/no-property';
 
-type AppProps = {
-  comments: Comment[];
-}
-
-function App({comments}: AppProps): JSX.Element {
+function App(): JSX.Element {
 
   const offers = useAppSelector((state) => state.offers);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
@@ -54,7 +50,11 @@ function App({comments}: AppProps): JSX.Element {
           />
           <Route
             path={AppRoute.Room}
-            element={<Room offers={offers} comments={comments} authStatus={authorizationStatus}/>}
+            element={<Room authStatus={authorizationStatus}/>}
+          />
+          <Route
+            path={AppRoute.NoProperty}
+            element={<NoProperty />}
           />
           <Route
             path='*'
