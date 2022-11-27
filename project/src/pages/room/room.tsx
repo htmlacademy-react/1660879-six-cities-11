@@ -9,11 +9,11 @@ import { Comment } from '../../types/comment';
 import PropertyReviewsBlock from '../../components/property-reviews-block/property-reviews-block';
 import NearPlacesBlock from '../../components/near-places-block/near-places-block';
 import { getPropertyType } from './../../util';
-import { APIRoute, AppRoute, PropertyType } from './../../const';
+import { PropertyType } from './../../const';
 import StarsRating from './../../components/stars-rating/stars-rating';
 import Map from '../../components/map/map';
 import { useEffect, useState } from 'react';
-import { createAPI } from '../../services/api';
+import { fetchOfferData } from '../../services/api';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 
 type RoomProps = {
@@ -22,36 +22,40 @@ type RoomProps = {
 
 function Room({authStatus}: RoomProps) {
   const { id } = useParams();
-  const api = createAPI();
   const navigate = useNavigate();
 
-  const [offer, setOffer] = useState<Offer | null>(null);
-  const [comments, setComments] = useState<Comment[] | null>(null);
-  const [nearOffers, setNearOffers] = useState<Offer[] | null>(null);
+  const [offerData, setOfferData] = useState({
+    offer: {} as Offer,
+    comments: [] as Comment[],
+    nearOffers: [] as Offer[],
+  });
 
 
   useEffect(() => {
-    api.get<Offer>(`${APIRoute.Offers}/${id as string}`)
-      .then((response) => setOffer(response.data))
-      .catch(() => navigate(AppRoute.NoProperty));
-    api.get<Comment[]>(`${APIRoute.Comments}/${id as string}`)
-      .then((response) => setComments(response.data))
-      .catch(() => navigate(AppRoute.NoProperty));
-    api.get<Offer[]>(`${APIRoute.Offers}/${id as string}/nearby`)
-      .then((response) => setNearOffers(response.data))
-      .catch(() => navigate(AppRoute.NoProperty));
+    fetchOfferData(id as string, navigate)
+      .then((response) => {
+        setOfferData({
+          offer: response?.firstResponse.data as Offer,
+          comments: response?.secondResponse.data as Comment[],
+          nearOffers: response?.thirdResponse.data as Offer[]
+        });
+      });
   }, []);
 
 
   const handleCommentsChange = (newComments: Comment[]): void => {
-    setComments(newComments);
+    setOfferData({
+      ...offerData,
+      comments: newComments
+    });
   };
 
 
-  if (offer === null || comments === null || nearOffers === null) {
+  if (offerData.offer.id === undefined) {
     return (<LoadingScreen />);
   }
 
+  const { offer, comments, nearOffers } = offerData;
   const selectedAndNearOffers = [offer, ...nearOffers];
 
   return (

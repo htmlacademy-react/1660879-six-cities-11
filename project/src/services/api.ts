@@ -1,6 +1,10 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
 import { getUser } from './user';
 import { toast } from 'react-toastify';
+import { Offer } from '../types/offer';
+import { Comment } from '../types/comment';
+import { APIRoute, AppRoute } from '../const';
+import { NavigateFunction } from 'react-router-dom';
 
 const BACKEND_URL = 'https://11.react.pages.academy/six-cities';
 const REQUEST_TIMEOUT = 5000;
@@ -37,4 +41,17 @@ export const createAPI = (): AxiosInstance => {
   return api;
 };
 
+const api = createAPI();
 
+export const fetchOfferData = async (id: string, navigate: NavigateFunction) => {
+  try {
+    const firstResponse = await api.get<Offer>(`${APIRoute.Offers}/${id}`);
+    const [secondResponse, thirdResponse] = await Promise.all(
+      [api.get<Comment[]>(`${APIRoute.Comments}/${id}`),
+        api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`),
+      ]);
+    return {firstResponse, secondResponse, thirdResponse};
+  } catch {
+    navigate(AppRoute.NoProperty);
+  }
+};
