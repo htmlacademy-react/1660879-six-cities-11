@@ -11,12 +11,14 @@ import MainEmpty from '../../components/main-empty/main-empty';
 import { useEffect } from 'react';
 import Sort from '../../components/sort/sort';
 import { Offer } from '../../types/offer';
+import { getOffers } from '../../store/app-data/app-data-selectors';
+import { getCity } from '../../store/app-process/app-process-selectors';
 
 function Main(): JSX.Element {
   const [selectedOfferId, setSelectedOfferId] = useState<number | undefined>(undefined);
 
-  const allOffers = useAppSelector((state) => state.offers);
-  const city = useAppSelector((state) => state.city);
+  const allOffers = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
   const [offers, setOffers] = useState<Offer[]>([]);
 
   useEffect(() => {

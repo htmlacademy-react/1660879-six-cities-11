@@ -3,10 +3,11 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getUser } from '../../services/user';
 import { logoutAction } from '../../store/api-action';
+import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 
 function Navigation() {
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
+  const authStatus = useAppSelector(getAuthorizationStatus);
   const user = getUser();
 
   const handleSignOutClick = () => {

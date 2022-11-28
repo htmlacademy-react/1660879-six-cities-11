@@ -12,12 +12,14 @@ import { getAllFavoriteOffersAndCities } from '../../util';
 import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NoProperty from '../no-property/no-property';
+import { getOffers, getOffersDataLoadingStatus } from '../../store/app-data/app-data-selectors';
+import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 
 function App(): JSX.Element {
 
-  const offers = useAppSelector((state) => state.offers);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offers = useAppSelector(getOffers);
+  const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const {allFavoriteOffers, favoriteCities} = getAllFavoriteOffersAndCities(offers);
 
