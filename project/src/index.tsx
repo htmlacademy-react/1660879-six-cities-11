@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { commentsToOfferN3 } from './mocks/comments';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { fetchOffersAction, checkAuth } from './store/api-action';
@@ -19,9 +18,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastContainer />
-      <App
-        comments={commentsToOfferN3}
-      />
+      <App />
     </Provider>
   </React.StrictMode>,
 );
