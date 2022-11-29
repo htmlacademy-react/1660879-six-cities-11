@@ -15,7 +15,6 @@ import { getOffers } from '../../store/app-data/app-data-selectors';
 import { getCity } from '../../store/app-process/app-process-selectors';
 
 function Main(): JSX.Element {
-  const [selectedOfferId, setSelectedOfferId] = useState<number | undefined>(undefined);
 
   const allOffers = useAppSelector(getOffers);
   const city = useAppSelector(getCity);
@@ -48,10 +47,6 @@ function Main(): JSX.Element {
     setOffers(sortedOffersBySortType);
   };
 
-  const onPlaceListMouseEnter = (id: number) => {
-    setSelectedOfferId(id);
-  };
-
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -79,11 +74,11 @@ function Main(): JSX.Element {
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{offers.length} places to stay in {city}</b>
                 <Sort sortOffers={sortOffers}/>
-                <PlacesList offers={offers} onPlaceListMouseEnter={onPlaceListMouseEnter}/>
+                <PlacesList offers={offers} />
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map offers={offers} selectedOfferId={selectedOfferId}></Map>
+                  <Map offers={offers} height={800}/>
                 </section>
               </div>
             </div>}

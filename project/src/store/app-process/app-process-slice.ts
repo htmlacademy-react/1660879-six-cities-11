@@ -4,6 +4,7 @@ import { AppProcess } from '../../types/state';
 
 const initialState: AppProcess = {
   city: CitiesList.Paris as string,
+  selectedOffer: undefined,
 };
 
 export const appProcess = createSlice({
@@ -12,8 +13,11 @@ export const appProcess = createSlice({
   reducers: {
     changeCity: (state, action: PayloadAction<{value: string}>) => {
       state.city = action.payload.value;
+    },
+    setSelectedOffer: (state, action: PayloadAction<number>) => {
+      state.selectedOffer = action.payload;
     }
   }
 });
 
-export const {changeCity} = appProcess.actions;
+export const {changeCity, setSelectedOffer} = appProcess.actions;

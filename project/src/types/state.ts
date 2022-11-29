@@ -13,6 +13,7 @@ export type AppData = {
 
 export type AppProcess = {
   city: string;
+  selectedOffer: number | undefined;
 }
 
 export type State = ReturnType<typeof store.getState>;

@@ -141,7 +141,7 @@ function Room({authStatus}: RoomProps) {
             </div>
           </div>
           <section className="property__map map">
-            <Map offers={selectedAndNearOffers} selectedOfferId={Number(id)}></Map>
+            <Map offers={selectedAndNearOffers} unchangeableOfferId={Number(id)} height={580}/>
           </section>
         </section>
         <NearPlacesBlock offers={nearOffers}/>
