@@ -1,16 +1,27 @@
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import FavoritesEmptyBlock from '../../components/favorites-empty-block/favorites-empty-block';
 import FavoritesNotEmptyBlock from '../../components/favorites-not-empty-block/favorites-not-empty-block';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
 import Logo from '../../components/logo/logo';
 import Navigation from '../../components/user-info/user-info';
-import { Offer } from '../../types/offer';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchFavoriteOffersAction } from '../../store/api-action';
+import { getFavoriteOffers, getFavoriteOffersDataLoadingStatus } from '../../store/app-data/app-data-selectors';
+import { getFavoriteCities } from '../../util';
 
-type FavoritesProps = {
-  offers: Offer[];
-  cities: string[];
-}
+function Favorites() {
 
-function Favorites({offers, cities}: FavoritesProps) {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavoriteOffersAction());
+  }, []);
+
+  const offers = useAppSelector(getFavoriteOffers);
+  const isFavoriteOffersDataLoading = useAppSelector(getFavoriteOffersDataLoadingStatus);
+  const cities = getFavoriteCities(offers);
+
   let divClassName;
   let mainClassName;
 
@@ -22,6 +33,12 @@ function Favorites({offers, cities}: FavoritesProps) {
     default:
       divClassName = 'page';
       mainClassName = 'page__main page__main--favorites';
+  }
+
+  if (isFavoriteOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
   }
 
   return (

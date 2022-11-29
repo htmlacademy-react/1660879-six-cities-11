@@ -8,11 +8,10 @@ import NotFound from '../../pages/not-found/not-found';
 import Room from '../../pages/room/room';
 import PrivateRoute from '../private-route/private-route';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
-import { getAllFavoriteOffersAndCities } from '../../util';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NoProperty from '../no-property/no-property';
-import { getOffers, getOffersDataLoadingStatus } from '../../store/app-data/app-data-selectors';
+import { getOffersDataLoadingStatus } from '../../store/app-data/app-data-selectors';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import { useEffect } from 'react';
 import { checkAuthAction, fetchOffersAction } from '../../store/api-action';
@@ -26,11 +25,8 @@ function App(): JSX.Element {
     dispatch(checkAuthAction());
   }, []);
 
-  const offers = useAppSelector(getOffers);
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-
-  const {allFavoriteOffers, favoriteCities} = getAllFavoriteOffersAndCities(offers);
 
   if (isOffersDataLoading) {
     return (
@@ -55,7 +51,7 @@ function App(): JSX.Element {
             path={AppRoute.Favorites}
             element={
               <PrivateRoute authStatus={authorizationStatus}>
-                <Favorites offers={allFavoriteOffers} cities={favoriteCities}/>
+                <Favorites />
               </PrivateRoute>
             }
           />
