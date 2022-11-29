@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
-import Navigation from '../../components/navigation/navigation';
+import UserInfo from '../../components/user-info/user-info';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
 import { useState } from 'react';
@@ -11,12 +11,13 @@ import MainEmpty from '../../components/main-empty/main-empty';
 import { useEffect } from 'react';
 import Sort from '../../components/sort/sort';
 import { Offer } from '../../types/offer';
+import { getOffers } from '../../store/app-data/app-data-selectors';
+import { getCity } from '../../store/app-process/app-process-selectors';
 
 function Main(): JSX.Element {
-  const [selectedOfferId, setSelectedOfferId] = useState<number | undefined>(undefined);
 
-  const allOffers = useAppSelector((state) => state.offers);
-  const city = useAppSelector((state) => state.city);
+  const allOffers = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
   const [offers, setOffers] = useState<Offer[]>([]);
 
   useEffect(() => {
@@ -46,10 +47,6 @@ function Main(): JSX.Element {
     setOffers(sortedOffersBySortType);
   };
 
-  const onPlaceListMouseEnter = (id: number) => {
-    setSelectedOfferId(id);
-  };
-
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -59,7 +56,7 @@ function Main(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Navigation />
+            <UserInfo />
           </div>
         </div>
       </header>
@@ -77,11 +74,11 @@ function Main(): JSX.Element {
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{offers.length} places to stay in {city}</b>
                 <Sort sortOffers={sortOffers}/>
-                <PlacesList offers={offers} onPlaceListMouseEnter={onPlaceListMouseEnter}/>
+                <PlacesList offers={offers} />
               </section>
               <div className="cities__right-section">
                 <section className="cities__map map">
-                  <Map offers={offers} selectedOfferId={selectedOfferId}></Map>
+                  <Map offers={offers} height={800}/>
                 </section>
               </div>
             </div>}

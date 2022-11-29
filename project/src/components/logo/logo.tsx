@@ -1,5 +1,6 @@
 import { useLocation, Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { memo } from 'react';
 
 function Logo() {
   const location = useLocation();
@@ -22,4 +23,4 @@ function Logo() {
   );
 }
 
-export default Logo;
+export default memo(Logo);

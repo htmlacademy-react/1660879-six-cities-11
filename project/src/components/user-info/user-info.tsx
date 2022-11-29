@@ -3,10 +3,12 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getUser } from '../../services/user';
 import { logoutAction } from '../../store/api-action';
+import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
+import { memo } from 'react';
 
-function Navigation() {
+function UserInfo() {
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
+  const authStatus = useAppSelector(getAuthorizationStatus);
   const user = getUser();
 
   const handleSignOutClick = () => {
@@ -57,4 +59,4 @@ function Navigation() {
   );
 }
 
-export default Navigation;
+export default memo(UserInfo);

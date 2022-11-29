@@ -4,17 +4,19 @@ import { Offer } from '../../types/offer';
 import StarsRating from '../stars-rating/stars-rating';
 import { PropertyType } from './../../const';
 import { getPropertyType } from './../../util';
+import { useAppDispatch } from '../../hooks';
+import { setSelectedOffer } from '../../store/app-process/app-process-slice';
 
 type PlaceCardProps = {
   offer: Offer;
-  onCardMouseEnter?: (id: number) => void;
 }
 
 type PropertyKeyType = keyof typeof PropertyType
 
 
-function PlaceCard({offer, onCardMouseEnter}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer}: PlaceCardProps): JSX.Element {
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   let articleClassName;
   let divClassName;
@@ -37,9 +39,7 @@ function PlaceCard({offer, onCardMouseEnter}: PlaceCardProps): JSX.Element {
   return (
     <article
       className={articleClassName}
-      onMouseEnter={() => {
-        onCardMouseEnter?.(offer.id);
-      }}
+      onMouseEnter={() => dispatch(setSelectedOffer(offer.id))}
     >
       {offer.isPremium
         ?
@@ -49,7 +49,6 @@ function PlaceCard({offer, onCardMouseEnter}: PlaceCardProps): JSX.Element {
         : ''}
       <div className={divClassName}>
         <Link to={`/offer/${offer.id}`}>
-          {/* TODO нужно будет применить useEffect, чтобы скроллить страницу вверх */}
           <img
             className="place-card__image"
             src={offer.previewImage}

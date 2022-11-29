@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import FavoritesEmptyBlock from '../../components/favorites-empty-block/favorites-empty-block';
 import FavoritesNotEmptyBlock from '../../components/favorites-not-empty-block/favorites-not-empty-block';
 import Logo from '../../components/logo/logo';
-import Navigation from '../../components/navigation/navigation';
+import Navigation from '../../components/user-info/user-info';
 import { Offer } from '../../types/offer';
 
 type FavoritesProps = {
