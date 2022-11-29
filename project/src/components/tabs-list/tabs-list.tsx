@@ -2,6 +2,7 @@ import { CitiesList } from '../../const';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/index';
 import { changeCity } from '../../store/app-process/app-process-slice';
+import { memo } from 'react';
 
 type TabsListProps = {
   citiesList: typeof CitiesList;
@@ -36,4 +37,4 @@ function TabsList({citiesList}: TabsListProps) {
   );
 }
 
-export default TabsList;
+export default memo(TabsList);

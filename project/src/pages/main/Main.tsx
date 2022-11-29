@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
-import Navigation from '../../components/navigation/navigation';
+import UserInfo from '../../components/user-info/user-info';
 import PlacesList from '../../components/places-list/places-list';
 import Map from '../../components/map/map';
 import { useState } from 'react';
@@ -56,7 +56,7 @@ function Main(): JSX.Element {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Navigation />
+            <UserInfo />
           </div>
         </div>
       </header>
