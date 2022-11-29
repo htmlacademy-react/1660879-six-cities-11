@@ -5,7 +5,7 @@ export function getPropertyType(offerType: keyof typeof PropertyType) {
   return PropertyType[offerType];
 }
 
-export function getFavoriteCities(offers: Offer[]) {
+export function getFavoriteCities(offers: Offer[]): string[] {
   const favoriteCities = Array.from(new Set(offers.map((it) => it.city.name)));
   return favoriteCities;
 }
