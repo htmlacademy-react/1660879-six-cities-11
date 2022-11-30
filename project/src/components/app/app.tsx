@@ -12,7 +12,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NoProperty from '../no-property/no-property';
 import { getOffersDataLoadingStatus } from '../../store/app-data/app-data-selectors';
-import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import { useEffect } from 'react';
 import { checkAuthAction, fetchOffersAction } from '../../store/api-action';
 
@@ -26,7 +25,6 @@ function App(): JSX.Element {
   }, []);
 
   const isOffersDataLoading = useAppSelector(getOffersDataLoadingStatus);
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   if (isOffersDataLoading) {
     return (
@@ -50,14 +48,14 @@ function App(): JSX.Element {
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute authStatus={authorizationStatus}>
+              <PrivateRoute>
                 <Favorites />
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Room}
-            element={<Room authStatus={authorizationStatus}/>}
+            element={<Room />}
           />
           <Route
             path={AppRoute.NoProperty}

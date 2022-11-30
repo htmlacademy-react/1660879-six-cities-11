@@ -11,6 +11,7 @@ export type AppData = {
   isOffersDataLoading: boolean;
   favoriteOffers: Offer[];
   isFavoriteOffersDataLoading: boolean;
+  isFavoriteOfferSetting: boolean;
 }
 
 export type AppProcess = {

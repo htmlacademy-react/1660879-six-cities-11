@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIRoute } from '../const';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { Offer } from '../types/offer';
+import { Offer, OfferId } from '../types/offer';
 import { saveUser, dropUser } from '../services/user';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
@@ -62,6 +62,30 @@ export const fetchFavoriteOffersAction = createAsyncThunk<Offer[], undefined, {
   'data/fetchFavoriteOffers',
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Offer[]>(APIRoute.FavoriteOffers);
+    return data;
+  }
+);
+
+export const setFavoriteOfferAction = createAsyncThunk<Offer, OfferId, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/setFavoriteOffer',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.post<Offer>(`${APIRoute.FavoriteOffers}/${id}/1`);
+    return data;
+  }
+);
+
+export const deleteFavoriteOfferAction = createAsyncThunk<Offer, OfferId, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/deleteFavoriteOffer',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.post<Offer>(`${APIRoute.FavoriteOffers}/${id}/0`);
     return data;
   }
 );

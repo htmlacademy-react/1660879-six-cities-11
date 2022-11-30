@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getUser } from '../../services/user';
 import { logoutAction } from '../../store/api-action';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
-import { memo } from 'react';
 import { getFavoriteOffers } from '../../store/app-data/app-data-selectors';
 
 function UserInfo() {
@@ -61,4 +60,4 @@ function UserInfo() {
   );
 }
 
-export default memo(UserInfo);
+export default UserInfo;
