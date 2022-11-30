@@ -4,12 +4,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getUser } from '../../services/user';
 import { logoutAction } from '../../store/api-action';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
-import { memo } from 'react';
+import { getFavoriteOffers } from '../../store/app-data/app-data-selectors';
 
 function UserInfo() {
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(getAuthorizationStatus);
   const user = getUser();
+  const offers = useAppSelector(getFavoriteOffers);
 
   const handleSignOutClick = () => {
     dispatch(logoutAction());
@@ -30,7 +31,7 @@ function UserInfo() {
                   <img alt='avatar' src={user.avatarUrl}/>
                 </div>
                 <span className="header__user-name user__name">{user.email}</span>
-                <span className="header__favorite-count">3</span>
+                <span className="header__favorite-count">{offers.length}</span>
               </Link>
             </li>
             <li className="header__nav-item">
@@ -59,4 +60,4 @@ function UserInfo() {
   );
 }
 
-export default memo(UserInfo);
+export default UserInfo;

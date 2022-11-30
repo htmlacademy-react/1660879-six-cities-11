@@ -1,5 +1,6 @@
 import './loading-screen.css';
 
+
 function LoadingScreen() {
   return (
     <div className="loading-screen">
@@ -9,3 +10,4 @@ function LoadingScreen() {
 }
 
 export default LoadingScreen;
+

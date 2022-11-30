@@ -1,11 +1,16 @@
-import { useLocation, Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { Offer } from '../../types/offer';
 import StarsRating from '../stars-rating/stars-rating';
 import { PropertyType } from './../../const';
 import { getPropertyType } from './../../util';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setSelectedOffer } from '../../store/app-process/app-process-slice';
+import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
+import { deleteFavoriteOfferAction,setFavoriteOfferAction } from '../../store/api-action';
+import { Oval } from 'react-loader-spinner';
+import { getFavoriteOfferSettingStatus } from '../../store/app-data/app-data-selectors';
+import { useEffect, useState } from 'react';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -17,6 +22,15 @@ type PropertyKeyType = keyof typeof PropertyType
 function PlaceCard({offer}: PlaceCardProps): JSX.Element {
   const location = useLocation();
   const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(getAuthorizationStatus);
+  const favoriteOfferSettingStatus = useAppSelector(getFavoriteOfferSettingStatus);
+  const navigate = useNavigate();
+
+  const [offerId, setOfferId] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    setOfferId(undefined);
+  }, [offer]);
 
   let articleClassName;
   let divClassName;
@@ -35,6 +49,24 @@ function PlaceCard({offer}: PlaceCardProps): JSX.Element {
       divClassName = 'near-places__image-wrapper place-card__image-wrapper';
   }
 
+
+  const handleButtonClick = () => {
+    if (authStatus === AuthorizationStatus.Auth) {
+
+      if (offer.isFavorite) {
+        setOfferId(offer.id);
+        dispatch(deleteFavoriteOfferAction(offer.id));
+      } else {
+        setOfferId(offer.id);
+        dispatch(setFavoriteOfferAction(offer.id));
+      }
+
+    } else {
+      navigate(AppRoute.Login);
+    }
+  };
+
+  const iconStyle = offer.isFavorite ? {stroke: 'rgb(68, 129, 195)'} : {};
 
   return (
     <article
@@ -64,19 +96,35 @@ function PlaceCard({offer}: PlaceCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">/&nbsp;night</span>
           </div>
-          <button
-            className="place-card__bookmark-button button"
-            type="button"
-          >
-            <svg
-              className="place-card__bookmark-icon"
-              width={18}
-              height={19}
+          {favoriteOfferSettingStatus === true && offer.id === offerId
+            ?
+            <Oval
+              height={18}
+              width={19}
+              color="#4fa94d"
+              wrapperStyle={{}}
+              wrapperClass=""
+              ariaLabel='oval-loading'
+              secondaryColor="#4fa94d"
+              strokeWidth={3}
+              strokeWidthSecondary={3}
+            />
+            :
+            <button
+              className="place-card__bookmark-button button"
+              type="button"
+              onClick={handleButtonClick}
             >
-              <use xlinkHref="#icon-bookmark" />
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+              <svg
+                className="place-card__bookmark-icon"
+                width={18}
+                height={19}
+                style={iconStyle}
+              >
+                <use xlinkHref="#icon-bookmark" />
+              </svg>
+              <span className="visually-hidden">To bookmarks</span>
+            </button>}
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

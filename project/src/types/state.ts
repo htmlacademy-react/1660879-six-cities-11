@@ -9,6 +9,9 @@ export type UserProcess = {
 export type AppData = {
   offers: Offer[];
   isOffersDataLoading: boolean;
+  favoriteOffers: Offer[];
+  isFavoriteOffersDataLoading: boolean;
+  isFavoriteOfferSetting: boolean;
 }
 
 export type AppProcess = {

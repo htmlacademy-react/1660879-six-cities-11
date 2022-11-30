@@ -9,20 +9,24 @@ import { Comment } from '../../types/comment';
 import PropertyReviewsBlock from '../../components/property-reviews-block/property-reviews-block';
 import NearPlacesBlock from '../../components/near-places-block/near-places-block';
 import { getPropertyType } from './../../util';
-import { PropertyType } from './../../const';
+import { AppRoute, AuthorizationStatus, PropertyType } from './../../const';
 import StarsRating from './../../components/stars-rating/stars-rating';
 import Map from '../../components/map/map';
 import { useEffect, useState } from 'react';
 import { fetchOfferData } from '../../services/api';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
+import { getFavoriteOfferSettingStatus } from '../../store/app-data/app-data-selectors';
+import { deleteFavoriteOfferAction, setFavoriteOfferAction } from '../../store/api-action';
+import { Oval } from 'react-loader-spinner';
 
-type RoomProps = {
-  authStatus: string;
-}
-
-function Room({authStatus}: RoomProps) {
+function Room() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const authStatus = useAppSelector(getAuthorizationStatus);
+  const dispatch = useAppDispatch();
+  const favoriteOfferSettingStatus = useAppSelector(getFavoriteOfferSettingStatus);
 
   const [offerData, setOfferData] = useState({
     offer: {} as Offer,
@@ -55,8 +59,40 @@ function Room({authStatus}: RoomProps) {
     return (<LoadingScreen />);
   }
 
+
   const { offer, comments, nearOffers } = offerData;
   const selectedAndNearOffers = [offer, ...nearOffers];
+
+
+  const handleFavoriteButtonClick = () => {
+    if (authStatus === AuthorizationStatus.Auth) {
+
+      if (offer.isFavorite) {
+        dispatch(deleteFavoriteOfferAction(offerData.offer.id));
+        setOfferData({
+          ...offerData,
+          offer: {
+            ...offerData.offer,
+            isFavorite: false,
+          },
+        });
+      } else {
+        dispatch(setFavoriteOfferAction(offerData.offer.id));
+        setOfferData({
+          ...offerData,
+          offer: {
+            ...offerData.offer,
+            isFavorite: true,
+          },
+        });
+      }
+
+    } else {
+      navigate(AppRoute.Login);
+    }
+  };
+
+  const iconStyle = offer.isFavorite ? {stroke: 'rgb(68, 129, 195)'} : {};
 
   return (
     <div className="page">
@@ -86,13 +122,35 @@ function Room({authStatus}: RoomProps) {
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
-                  <svg className="property__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark" />
-                    {/* TODO setState */}
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+                {favoriteOfferSettingStatus === true
+                  ?
+                  <Oval
+                    height={30}
+                    width={30}
+                    color="#4fa94d"
+                    wrapperStyle={{}}
+                    wrapperClass="property__bookmark-button"
+                    ariaLabel='oval-loading'
+                    secondaryColor="#4fa94d"
+                    strokeWidth={3}
+                    strokeWidthSecondary={3}
+                  />
+                  :
+                  <button
+                    className="property__bookmark-button button"
+                    type="button"
+                    onClick={handleFavoriteButtonClick}
+                  >
+                    <svg
+                      className="property__bookmark-icon"
+                      width={31}
+                      height={33}
+                      style={iconStyle}
+                    >
+                      <use xlinkHref="#icon-bookmark" />
+                    </svg>
+                    <span className="visually-hidden">To bookmarks</span>
+                  </button>}
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
