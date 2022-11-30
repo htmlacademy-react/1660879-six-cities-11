@@ -50,7 +50,7 @@ function PlaceCard({offer}: PlaceCardProps): JSX.Element {
   }
 
 
-  const handleButtonClick = () => {
+  const handleFavoriteButtonClick = () => {
     if (authStatus === AuthorizationStatus.Auth) {
 
       if (offer.isFavorite) {
@@ -113,7 +113,7 @@ function PlaceCard({offer}: PlaceCardProps): JSX.Element {
             <button
               className="place-card__bookmark-button button"
               type="button"
-              onClick={handleButtonClick}
+              onClick={handleFavoriteButtonClick}
             >
               <svg
                 className="place-card__bookmark-icon"

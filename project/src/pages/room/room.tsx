@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
 import UserInfo from '../../components/user-info/user-info';
@@ -27,6 +27,10 @@ function Room() {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   const favoriteOfferSettingStatus = useAppSelector(getFavoriteOfferSettingStatus);
+  const location = useLocation();
+
+  const pathName = location.pathname;
+  const pathNameId = Number(pathName.split('/')[2]);
 
   const [offerData, setOfferData] = useState({
     offer: {} as Offer,
@@ -44,7 +48,7 @@ function Room() {
           nearOffers: response?.thirdResponse.data as Offer[]
         });
       });
-  }, []);
+  }, [location]);
 
 
   const handleCommentsChange = (newComments: Comment[]): void => {
@@ -55,7 +59,7 @@ function Room() {
   };
 
 
-  if (offerData.offer.id === undefined) {
+  if (offerData.offer.id === undefined || offerData.offer.id !== pathNameId) {
     return (<LoadingScreen />);
   }
 
