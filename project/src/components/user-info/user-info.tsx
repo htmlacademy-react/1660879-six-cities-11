@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getUser } from '../../services/user';
-import { logoutAction } from '../../store/api-action';
+import { fetchOffersAction, logoutAction } from '../../store/api-action';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import { getFavoriteOffers } from '../../store/app-data/app-data-selectors';
+import { clearFavoriteOffers } from '../../store/app-data/app-data-slice';
 
 function UserInfo() {
   const dispatch = useAppDispatch();
@@ -13,7 +14,9 @@ function UserInfo() {
   const offers = useAppSelector(getFavoriteOffers);
 
   const handleSignOutClick = () => {
-    dispatch(logoutAction());
+    dispatch(logoutAction())
+      .then(() => dispatch(clearFavoriteOffers()))
+      .then(() => dispatch(fetchOffersAction()));
   };
 
   return (

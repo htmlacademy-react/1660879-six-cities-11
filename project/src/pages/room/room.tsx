@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
-import Navigation from '../../components/user-info/user-info';
+import UserInfo from '../../components/user-info/user-info';
 import PropertyGallery from '../../components/property-gallery/property-gallery';
 import { Offer } from '../../types/offer';
 import PropertyInside from '../../components/property-inside/property-inside';
@@ -103,7 +103,7 @@ function Room() {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Navigation />
+            <UserInfo />
           </div>
         </div>
       </header>
