@@ -29,3 +29,9 @@ export const sortOffers = (city: string, offers: Offer[], sortType: SortType): O
   }
   return sortedOffersBySortType;
 };
+
+export const getRandomEnumValue = (anEnum: Record<string, unknown>) => {
+  const enumValues = Object.keys(anEnum);
+  const randomIndex = Math.floor(Math.random() * enumValues.length);
+  return enumValues[randomIndex];
+};

@@ -2,13 +2,17 @@ import { FormEvent, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, CitiesList } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-action';
+import { changeCity } from '../../store/app-process/app-process-slice';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import { AuthData } from '../../types/auth-data';
+import { getRandomEnumValue } from '../../util';
 
 function Login() {
+  const city = getRandomEnumValue(CitiesList);
+
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const authStatus = useAppSelector(getAuthorizationStatus);
@@ -92,9 +96,12 @@ function Login() {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="#">
-                {/* TODO перенаправлять на страницу Amsterdam */}
-                <span>Amsterdam</span>
+              <Link
+                className="locations__item-link"
+                to={AppRoute.Root}
+                onClick={() => dispatch(changeCity({value: city}))}
+              >
+                <span>{city}</span>
               </Link>
             </div>
           </section>
