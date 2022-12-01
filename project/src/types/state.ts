@@ -1,5 +1,5 @@
 import { store } from '../store';
-import { AuthorizationStatus } from '../const';
+import { AuthorizationStatus, SortType } from '../const';
 import { Offer } from './offer';
 
 export type UserProcess = {
@@ -17,6 +17,7 @@ export type AppData = {
 export type AppProcess = {
   city: string;
   selectedOffer: number | undefined;
+  sortType: SortType;
 }
 
 export type State = ReturnType<typeof store.getState>;
