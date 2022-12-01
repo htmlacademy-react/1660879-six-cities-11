@@ -5,7 +5,7 @@ type StarsRatingProps = {
 function StarsRating({rating}: StarsRatingProps) {
   return (
     <>
-      <span style={{ width: `${rating / 5 * 100}%` }} />
+      <span style={{ width: `${Math.round(rating) / 5 * 100}%` }} />
       <span className="visually-hidden">Rating</span>
     </>
   );

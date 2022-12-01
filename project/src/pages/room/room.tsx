@@ -96,7 +96,7 @@ function Room() {
     }
   };
 
-  const iconStyle = offer.isFavorite ? {stroke: 'rgb(68, 129, 195)'} : {};
+  const iconStyle = offer.isFavorite ? {fill: 'rgb(68, 129, 195)', stroke: 'rgb(68, 129, 195)'} : {};
 
   return (
     <div className="page">
@@ -131,13 +131,13 @@ function Room() {
                   <Oval
                     height={30}
                     width={30}
-                    color="#4fa94d"
+                    color="#4481c3"
                     wrapperStyle={{}}
                     wrapperClass="property__bookmark-button"
                     ariaLabel='oval-loading'
-                    secondaryColor="#4fa94d"
-                    strokeWidth={3}
-                    strokeWidthSecondary={3}
+                    secondaryColor="#4481c3"
+                    strokeWidth={5}
+                    strokeWidthSecondary={5}
                   />
                   :
                   <button
