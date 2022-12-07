@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { APIRoute } from '../../const';
 import { createAPI } from '../../services/api';
 import { Comment } from '../../types/comment';
+import { Oval } from 'react-loader-spinner';
 
 const initialFormState = {
   rating: 0,
@@ -17,6 +18,7 @@ function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
   const api = createAPI();
   const { id } = useParams();
   const [formData, setFormData] = useState(initialFormState);
+  const [isFormDisabled, setIsFormDisabled] = useState<boolean>(false);
 
   const {pathname} = useLocation();
 
@@ -36,15 +38,21 @@ function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
 
   const handleFormSubmmit = (evt: FormEvent<HTMLButtonElement>) => {
     evt.preventDefault();
+    setIsFormDisabled(true);
     api.post<Comment[]>(`${APIRoute.Comments}/${id as string}`, {
       comment: formData.review,
       rating: formData.rating,
-    }).then((response) => handleCommentsChange(response.data));
-    setFormData(initialFormState);
+    }).then((response) => handleCommentsChange(response.data))
+      .then(() => setFormData(initialFormState))
+      .finally(() => setIsFormDisabled(false));
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -57,6 +65,7 @@ function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
           defaultValue={5}
           id="5-stars"
           type="radio"
+          disabled={isFormDisabled}
         />
         <label
           htmlFor="5-stars"
@@ -75,6 +84,7 @@ function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
           defaultValue={4}
           id="4-stars"
           type="radio"
+          disabled={isFormDisabled}
         />
         <label
           htmlFor="4-stars"
@@ -93,6 +103,7 @@ function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
           defaultValue={3}
           id="3-stars"
           type="radio"
+          disabled={isFormDisabled}
         />
         <label
           htmlFor="3-stars"
@@ -111,6 +122,7 @@ function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
           defaultValue={2}
           id="2-stars"
           type="radio"
+          disabled={isFormDisabled}
         />
         <label
           htmlFor="2-stars"
@@ -129,6 +141,7 @@ function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
           defaultValue={1}
           id="1-star"
           type="radio"
+          disabled={isFormDisabled}
         />
         <label
           htmlFor="1-star"
@@ -147,6 +160,7 @@ function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={formData.review}
+        disabled={isFormDisabled}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -155,13 +169,28 @@ function ReviewsForm({handleCommentsChange}: ReviewsFormProps) {
           your stay with at least{' '}
           <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button
-          className="reviews__submit form__submit button"
-          type="submit"
-          onClick={handleFormSubmmit}
-        >
+        {isFormDisabled
+          ?
+          <Oval
+            height={30}
+            width={30}
+            color="#4481c3"
+            wrapperStyle={{position: 'absolute', right: '25%'}}
+            wrapperClass=""
+            ariaLabel='oval-loading'
+            secondaryColor="#4481c3"
+            strokeWidth={5}
+            strokeWidthSecondary={5}
+          />
+          :
+          <button
+            className="reviews__submit form__submit button"
+            type="submit"
+            onClick={handleFormSubmmit}
+            disabled={formData.review.length < 50 || formData.review.length > 300 || formData.rating === 0 || isFormDisabled}
+          >
           Submit
-        </button>
+          </button>}
       </div>
     </form>
   );

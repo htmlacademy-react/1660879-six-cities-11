@@ -50,7 +50,7 @@ function PlaceCard({offer}: PlaceCardProps): JSX.Element {
   }
 
 
-  const handleButtonClick = () => {
+  const handleFavoriteButtonClick = () => {
     if (authStatus === AuthorizationStatus.Auth) {
 
       if (offer.isFavorite) {
@@ -66,7 +66,7 @@ function PlaceCard({offer}: PlaceCardProps): JSX.Element {
     }
   };
 
-  const iconStyle = offer.isFavorite ? {stroke: 'rgb(68, 129, 195)'} : {};
+  const iconStyle = offer.isFavorite ? {fill: 'rgb(68, 129, 195)', stroke: 'rgb(68, 129, 195)'} : {};
 
   return (
     <article
@@ -101,19 +101,19 @@ function PlaceCard({offer}: PlaceCardProps): JSX.Element {
             <Oval
               height={18}
               width={19}
-              color="#4fa94d"
+              color="#4481c3"
               wrapperStyle={{}}
               wrapperClass=""
               ariaLabel='oval-loading'
-              secondaryColor="#4fa94d"
-              strokeWidth={3}
-              strokeWidthSecondary={3}
+              secondaryColor="#4481c3"
+              strokeWidth={5}
+              strokeWidthSecondary={5}
             />
             :
             <button
               className="place-card__bookmark-button button"
               type="button"
-              onClick={handleButtonClick}
+              onClick={handleFavoriteButtonClick}
             >
               <svg
                 className="place-card__bookmark-icon"

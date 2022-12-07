@@ -1,8 +1,9 @@
 import { CitiesList } from '../../const';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/index';
+import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { changeCity } from '../../store/app-process/app-process-slice';
 import { memo } from 'react';
+import { getCity } from '../../store/app-process/app-process-selectors';
 
 type TabsListProps = {
   citiesList: typeof CitiesList;
@@ -11,6 +12,7 @@ type TabsListProps = {
 function TabsList({citiesList}: TabsListProps) {
 
   const cities = Object.keys(citiesList);
+  const city = useAppSelector(getCity);
 
   const dispatch = useAppDispatch();
 
@@ -24,7 +26,7 @@ function TabsList({citiesList}: TabsListProps) {
               key={it}
             >
               <Link
-                className="locations__item-link tabs__item"
+                className={it === city ? 'locations__item-link tabs__item tabs__item--active' : 'locations__item-link tabs__item'}
                 to="#"
                 onClick={() => dispatch(changeCity({value: it}))}
               >

@@ -1,3 +1,7 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { changeCity } from '../../store/app-process/app-process-slice';
 import { Offer } from '../../types/offer';
 import PlaceCard from '../place-card/place-card';
 
@@ -7,6 +11,9 @@ type FavoritesNotEmptyBlockProps = {
 }
 
 function FavoritesNotEmptyBlock({offers, cities}: FavoritesNotEmptyBlockProps) {
+
+  const dispatch = useAppDispatch();
+
   return (
     <section className="favorites">
       <h1 className="favorites__title">Saved listing</h1>
@@ -15,9 +22,13 @@ function FavoritesNotEmptyBlock({offers, cities}: FavoritesNotEmptyBlockProps) {
           <li className="favorites__locations-items" key={it}>
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#">
+                <Link
+                  className="locations__item-link"
+                  to={AppRoute.Root}
+                  onClick={() => dispatch(changeCity({value: it}))}
+                >
                   <span>{it}</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="favorites__places">

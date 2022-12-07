@@ -1,20 +1,29 @@
-import { FormEvent, useEffect, useRef } from 'react';
+import { FormEvent, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus, CitiesList } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useInput } from '../../hooks/useInput';
 import { loginAction } from '../../store/api-action';
+import { changeCity } from '../../store/app-process/app-process-slice';
 import { getAuthorizationStatus } from '../../store/user-process/user-process-selectors';
 import { AuthData } from '../../types/auth-data';
+import { getRandomEnumValue } from '../../util';
+
 
 function Login() {
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const email = useInput('', {isEmail: true});
+  const password = useInput('', {isPassword: true});
+
+  const city = useMemo(() => getRandomEnumValue(CitiesList), []);
+
   const authStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
+
 
   useEffect(() => {
     if (authStatus === AuthorizationStatus.Auth) {
@@ -26,18 +35,17 @@ function Login() {
     dispatch(loginAction(authData));
   };
 
+
   const handleSubmit = (evt: FormEvent<HTMLButtonElement>) => {
 
     evt.preventDefault();
 
-    if (emailRef.current !== null && passwordRef.current !== null ) {
-
-      onSubmit({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-    }
+    onSubmit({
+      email: email.value,
+      password: password.value,
+    });
   };
+
 
   return (
     <div className="page page--gray page--login">
@@ -61,30 +69,37 @@ function Login() {
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
+                {(email.isDirty && email.emailError) && <div style={{color: 'red'}}>{email.emailError}</div>}
                 <input
-                  ref={emailRef}
                   className="login__input form__input"
                   type="email"
                   name="email"
                   placeholder="Email"
                   required
+                  value={email.value}
+                  onChange={(evt) => email.onChange(evt)}
+                  onBlur={() => email.onBlur()}
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
+                {(password.isDirty && password.passwordError) && <div style={{color: 'red'}}>{password.passwordError}</div>}
                 <input
-                  ref={passwordRef}
                   className="login__input form__input"
                   type="password"
                   name="password"
                   placeholder="Password"
                   required
+                  value={password.value}
+                  onChange={(evt) => password.onChange(evt)}
+                  onBlur={() => password.onBlur()}
                 />
               </div>
               <button
                 className="login__submit form__submit button"
                 type="submit"
                 onClick={handleSubmit}
+                disabled={!!email.emailError || !!password.passwordError}
               >
                 Sign in
               </button>
@@ -92,9 +107,12 @@ function Login() {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="#">
-                {/* TODO перенаправлять на страницу Amsterdam */}
-                <span>Amsterdam</span>
+              <Link
+                className="locations__item-link"
+                to={AppRoute.Root}
+                onClick={() => dispatch(changeCity({value: city}))}
+              >
+                <span>{city}</span>
               </Link>
             </div>
           </section>

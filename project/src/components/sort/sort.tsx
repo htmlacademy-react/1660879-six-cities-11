@@ -1,21 +1,20 @@
 import { SortType } from '../../const';
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getCity } from '../../store/app-process/app-process-selectors';
+import { setSortType } from '../../store/app-process/app-process-slice';
 
-type SortProps = {
-  sortOffers(action: keyof typeof SortType): void;
-}
-
-function Sort({sortOffers}: SortProps) {
+function Sort() {
 
   const [title, setTitle] = useState('Popular');
   const [dropdownShouldBeShown, setDropdownShouldBeShown] = useState<boolean>(false);
 
+  const dispatch = useAppDispatch();
   const city = useAppSelector(getCity);
 
   useEffect(() => {
     setTitle('Popular');
+    dispatch(setSortType(SortType.Default));
     setDropdownShouldBeShown(false);
   }, [city]);
 
@@ -38,7 +37,7 @@ function Sort({sortOffers}: SortProps) {
             className="places__option places__option--active"
             tabIndex={0}
             onClick={(evt) => {
-              sortOffers(SortType.Default);
+              dispatch(setSortType(SortType.Default));
               setTitle(evt.currentTarget.innerText);
               setDropdownShouldBeShown(false);
             }}
@@ -49,7 +48,7 @@ function Sort({sortOffers}: SortProps) {
             className="places__option"
             tabIndex={0}
             onClick={(evt) => {
-              sortOffers(SortType.PriceLowToHigh);
+              dispatch(setSortType(SortType.PriceLowToHigh));
               setTitle(evt.currentTarget.innerText);
               setDropdownShouldBeShown(false);
             }}
@@ -59,7 +58,7 @@ function Sort({sortOffers}: SortProps) {
             className="places__option"
             tabIndex={0}
             onClick={(evt) => {
-              sortOffers(SortType.PriceHighToLow);
+              dispatch(setSortType(SortType.PriceHighToLow));
               setTitle(evt.currentTarget.innerText);
               setDropdownShouldBeShown(false);
             }}
@@ -69,7 +68,7 @@ function Sort({sortOffers}: SortProps) {
             className="places__option"
             tabIndex={0}
             onClick={(evt) => {
-              sortOffers(SortType.RatingHighToLow);
+              dispatch(setSortType(SortType.RatingHighToLow));
               setTitle(evt.currentTarget.innerText);
               setDropdownShouldBeShown(false);
             }}

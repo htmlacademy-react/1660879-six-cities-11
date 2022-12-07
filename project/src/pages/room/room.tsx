@@ -1,7 +1,7 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo';
-import Navigation from '../../components/user-info/user-info';
+import UserInfo from '../../components/user-info/user-info';
 import PropertyGallery from '../../components/property-gallery/property-gallery';
 import { Offer } from '../../types/offer';
 import PropertyInside from '../../components/property-inside/property-inside';
@@ -27,6 +27,10 @@ function Room() {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   const favoriteOfferSettingStatus = useAppSelector(getFavoriteOfferSettingStatus);
+  const location = useLocation();
+
+  const pathName = location.pathname;
+  const pathNameId = Number(pathName.split('/')[2]);
 
   const [offerData, setOfferData] = useState({
     offer: {} as Offer,
@@ -44,7 +48,7 @@ function Room() {
           nearOffers: response?.thirdResponse.data as Offer[]
         });
       });
-  }, []);
+  }, [location]);
 
 
   const handleCommentsChange = (newComments: Comment[]): void => {
@@ -55,7 +59,7 @@ function Room() {
   };
 
 
-  if (offerData.offer.id === undefined) {
+  if (offerData.offer.id === undefined || offerData.offer.id !== pathNameId) {
     return (<LoadingScreen />);
   }
 
@@ -92,7 +96,7 @@ function Room() {
     }
   };
 
-  const iconStyle = offer.isFavorite ? {stroke: 'rgb(68, 129, 195)'} : {};
+  const iconStyle = offer.isFavorite ? {fill: 'rgb(68, 129, 195)', stroke: 'rgb(68, 129, 195)'} : {};
 
   return (
     <div className="page">
@@ -103,7 +107,7 @@ function Room() {
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <Navigation />
+            <UserInfo />
           </div>
         </div>
       </header>
@@ -127,13 +131,13 @@ function Room() {
                   <Oval
                     height={30}
                     width={30}
-                    color="#4fa94d"
+                    color="#4481c3"
                     wrapperStyle={{}}
                     wrapperClass="property__bookmark-button"
                     ariaLabel='oval-loading'
-                    secondaryColor="#4fa94d"
-                    strokeWidth={3}
-                    strokeWidthSecondary={3}
+                    secondaryColor="#4481c3"
+                    strokeWidth={5}
+                    strokeWidthSecondary={5}
                   />
                   :
                   <button
