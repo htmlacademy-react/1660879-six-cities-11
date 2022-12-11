@@ -167,10 +167,10 @@ function Room() {
                   {getPropertyType(offer.type as keyof typeof PropertyType)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {`${offer.bedrooms} Bedrooms`}
+                  {`${offer.bedrooms} Bedroom${offer.bedrooms > 1 ? 's' : ''}`}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  {`Max ${offer.maxAdults} adults`}
+                  {`Max ${offer.maxAdults} adult${offer.maxAdults > 1 ? 's' : ''}`}
                 </li>
               </ul>
               <div className="property__price">
